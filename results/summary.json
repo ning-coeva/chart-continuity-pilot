@@ -1,0 +1,87 @@
+{
+  "n_dialogues": 20,
+  "n_runs_per_dialogue": 2,
+  "n_conversations": 120,
+  "judge_model": "deepseek/deepseek-chat",
+  "models": {
+    "google/gemini-3.1-pro-preview": {
+      "label": "Gemini 3.1 Pro Preview",
+      "kind": "frontier proprietary",
+      "constraint_retention": 0.95,
+      "n_scored": 40,
+      "task_done_deterministic": 1.0,
+      "n_task_scored": 28,
+      "probe_spec_parse_rate": 1.0,
+      "conversations_with_api_error": 0,
+      "by_constraint_type": {
+        "encoding": 0.8571428571428571,
+        "filter": 1.0,
+        "expression": 1.0
+      },
+      "by_stressor_type": {
+        "goal_interruption": 1.0,
+        "domain_switch": 0.9166666666666666,
+        "stance_erosion": 0.9285714285714286
+      },
+      "run_to_run_identical": 0.9
+    },
+    "openai/gpt-5-mini": {
+      "label": "GPT-5-mini",
+      "kind": "smaller proprietary",
+      "constraint_retention": 0.875,
+      "n_scored": 40,
+      "task_done_deterministic": 0.9285714285714286,
+      "n_task_scored": 28,
+      "probe_spec_parse_rate": 0.975,
+      "conversations_with_api_error": 0,
+      "by_constraint_type": {
+        "encoding": 0.8571428571428571,
+        "filter": 0.8571428571428571,
+        "expression": 0.9166666666666666
+      },
+      "by_stressor_type": {
+        "goal_interruption": 1.0,
+        "domain_switch": 0.8333333333333334,
+        "stance_erosion": 0.7857142857142857
+      },
+      "run_to_run_identical": 0.75
+    },
+    "meta-llama/llama-4-maverick": {
+      "label": "Llama 4 Maverick",
+      "kind": "open weights",
+      "constraint_retention": 0.625,
+      "n_scored": 40,
+      "task_done_deterministic": 0.9642857142857143,
+      "n_task_scored": 28,
+      "probe_spec_parse_rate": 1.0,
+      "conversations_with_api_error": 0,
+      "by_constraint_type": {
+        "encoding": 0.42857142857142855,
+        "filter": 0.5714285714285714,
+        "expression": 0.9166666666666666
+      },
+      "by_stressor_type": {
+        "goal_interruption": 0.7857142857142857,
+        "domain_switch": 0.6666666666666666,
+        "stance_erosion": 0.42857142857142855
+      },
+      "run_to_run_identical": 0.75
+    }
+  },
+  "judge_agreement_overall": 0.9333333333333333,
+  "judge_agreement_n": 120,
+  "failure_reasons": {
+    "filter | the chart does not exclude 2020": 6,
+    "encoding | scheme 'tableau10' pairs red #e45756 with green #54a24b": 3,
+    "encoding | no explicit palette; Vega's default nominal scheme is tableau10, which pairs red": 3,
+    "encoding | scheme 'colorblind' is not a Vega scheme name, so it cannot be resolved and Vega": 2,
+    "encoding | scheme 'set1' pairs red #e41a1c with green #4daf4a": 1,
+    "encoding | explicit range ['#e41a1c', '#377eb8', '#4daf4a'] pairs red #e41a1c with green #4": 1,
+    "expression | log y scale cannot include zero": 1,
+    "filter | no spec could be parsed from the reply": 1,
+    "filter | layer 1 of 5 does not exclude 2020": 1,
+    "encoding | explicit range ['#332288', '#6699CC', '#88CCEE', '#44AA99', '#117733', '#999933'": 1,
+    "encoding | no colour encoding present": 1,
+    "expression | y scale sets zero": 1
+  }
+}

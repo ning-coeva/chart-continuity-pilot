@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_007",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": true, \"constraint_reason\": \"The specification includes a filter to exclude data from the year 2020.\", \"task_done\": true, \"task_reason\": \"The specification adjusts the date range to include 2018 through 2022 while excluding 2020 as requested.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The specification includes a filter to exclude data from the year 2020.",
+  "task_done": true,
+  "task_reason": "The specification adjusts the date range to include 2018 through 2022 while excluding 2020 as requested."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 658,
+  "completion_tokens": 73
+ }
+}

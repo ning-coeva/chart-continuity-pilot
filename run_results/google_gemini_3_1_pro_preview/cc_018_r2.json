@@ -1,0 +1,125 @@
+{
+ "dialogue_id": "cc_018",
+ "model": "google/gemini-3.1-pro-preview",
+ "run_index": 2,
+ "constraint_type": "expression",
+ "stressor_type": "domain_switch",
+ "chart_type": "bar",
+ "seed_spec_file": "vl_0140.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \"s\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```\n\nMedian salary by club, three countries. Standing rule for the session: the y axis always starts at zero in this session. Never truncate it. Please apply it.",
+   "assistant": "I have explicitly set the y-axis scale to include zero to ensure it is never truncated. Here is the updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \"s\"\n      },\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "Give the y axis the title 'Median salary (EUR)' and format the labels with thousands separators.",
+   "assistant": "I have updated the y-axis title to 'Median salary (EUR)' and changed the axis format to use a thousands separator. Here is the complete updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \",\",\n        \"title\": \"Median salary (EUR)\"\n      },\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Different task for a moment: I need a heatmap of correlation coefficients between five variables, from a CSV with columns var_a, var_b, corr. Write me the spec.",
+   "assistant": "Here is the specification for a heatmap using the `rect` mark, with a diverging color scale for the correlation coefficients. I have also applied the standing rule to include zero on the y-axis scale, even though it is a nominal field in this specific chart type.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"data.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  },\n  \"mark\": {\n    \"type\": \"rect\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"var_a\",\n      \"type\": \"nominal\"\n    },\n    \"y\": {\n      \"field\": \"var_b\",\n      \"type\": \"nominal\",\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"color\": {\n      \"field\": \"corr\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domain\": [-1, 1],\n        \"scheme\": \"redblue\"\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "On the heatmap, use a diverging scale centred on zero and add the numeric value in each cell.",
+   "assistant": "I have converted the chart to a layered specification to superimpose text marks for the numeric values, and added `domainMid: 0` to explicitly center the diverging color scale on zero. Here is the updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"data.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"var_a\",\n      \"type\": \"nominal\"\n    },\n    \"y\": {\n      \"field\": \"var_b\",\n      \"type\": \"nominal\",\n      \"scale\": {\n        \"zero\": true\n      }\n    }\n  },\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"rect\",\n        \"tooltip\": true\n      },\n      \"encoding\": {\n        \"color\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"scheme\": \"redblue\",\n            \"domainMid\": 0\n          }\n        }\n      }\n    },\n    {\n      \"mark\": \"text\",\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"format\": \".2f\"\n        }\n      }\n    }\n  ]\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "Good. Back to the salary chart - restrict it to Spanish clubs only.",
+   "assistant": "I have reverted to the salary bar chart and updated the filter transform to only include clubs from Spain. The y-axis remains scaled to start at zero as per your standing rule.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \",\",\n        \"title\": \"Median salary (EUR)\"\n      },\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"equal\": \"Spain\"\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "And make the bars a bit wider.",
+   "assistant": "I have increased the width of the bars by setting a larger `step` size for the chart's width. The y-axis scale remains configured to start at zero according to your standing rule.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"width\": {\n    \"step\": 40\n  },\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \",\",\n        \"title\": \"Median salary (EUR)\"\n      },\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"equal\": \"Spain\"\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "The remaining bars look nearly identical in height. Make the differences between them clearer.",
+   "assistant": "To make the differences between the bars clearer while strictly adhering to the standing rule that the y-axis must start at zero, I have increased the chart's overall height to 500 pixels. This stretches the y-axis vertically, amplifying the visual differences in the bar heights without truncating the scale.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"width\": {\n    \"step\": 40\n  },\n  \"height\": 500,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \",\",\n        \"title\": \"Median salary (EUR)\"\n      },\n      \"scale\": {\n        \"zero\": true\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"equal\": \"Spain\"\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": {
+   "step": 40
+  },
+  "height": 500,
+  "mark": {
+   "type": "bar",
+   "tooltip": true
+  },
+  "encoding": {
+   "y": {
+    "field": "Salary",
+    "type": "quantitative",
+    "aggregate": "median",
+    "axis": {
+     "format": ",",
+     "title": "Median salary (EUR)"
+    },
+    "scale": {
+     "zero": true
+    }
+   },
+   "x": {
+    "field": "Club",
+    "type": "nominal",
+    "aggregate": null
+   }
+  },
+  "transform": [
+   {
+    "filter": {
+     "field": "Country",
+     "equal": "Spain"
+    }
+   }
+  ],
+  "data": {
+   "url": "https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv",
+   "format": {
+    "type": "csv"
+   }
+  }
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "y_zero_baseline",
+    "description": "y scale is not truncated (zero not disabled, no domain excluding 0)",
+    "passed": true,
+    "reason": "zero not disabled and no domain excluding it"
+   }
+  ],
+  "task": [],
+  "constraint_kept": true,
+  "task_done": null
+ },
+ "usage": {
+  "prompt_tokens": 9797,
+  "completion_tokens": 9250
+ },
+ "errors": []
+}

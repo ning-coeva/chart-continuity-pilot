@@ -1,0 +1,149 @@
+{
+ "dialogue_id": "cc_003",
+ "model": "openai/gpt-5-mini",
+ "run_index": 1,
+ "constraint_type": "filter",
+ "stressor_type": "domain_switch",
+ "chart_type": "bar",
+ "seed_spec_file": "vl_0970.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"subtitle\": [\n      \"Credit outstanding to all members\",\n      \" SDRs (billions), Source: IMF\"\n    ],\n    \"subtitleFontStyle\": \"italic\",\n    \"subtitleFontSize\": 10,\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 175,\n  \"width\": 175,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 4\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```\n\nThis chart shows IMF credit outstanding in billions of SDRs. One rule to hold for the whole session: always leave 2020 out of the data. Collection was disrupted that year and those numbers aren't comparable to the rest. Apply it and return the spec.",
+   "assistant": "I added a transform filter to exclude any data where Year is 2020, then kept the existing calculation of totals in billions. Here is the updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"subtitle\": [\n      \"Credit outstanding to all members\",\n      \" SDRs (billions), Source: IMF\"\n    ],\n    \"subtitleFontStyle\": \"italic\",\n    \"subtitleFontSize\": 10,\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    },\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 175,\n  \"width\": 175,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 4\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "Make the chart bigger - 500 by 300 - and give the y axis the title 'SDR (billions)'.",
+   "assistant": "I increased the chart size to 500x300 and set the y-axis title to \"SDR (billions)\"; the filter excluding 2020 remains in place. Below is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"subtitle\": [\n      \"Credit outstanding to all members\",\n      \" SDRs (billions), Source: IMF\"\n    ],\n    \"subtitleFontStyle\": \"italic\",\n    \"subtitleFontSize\": 10,\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    },\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 300,\n  \"width\": 500,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 4\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"SDR (billions)\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Hold that thought. I have a completely different chart to sort out first: a scatter of country GDP per capita against life expectancy, one point per country, from a CSV at https://example.org/gapminder.csv with columns country, gdp_per_cap, life_exp, region. Write me a spec for that from scratch.",
+   "assistant": "I created a scatter plot of GDP per capita (log scale) vs life expectancy, coloring points by region and adding a tooltip for country, region, GDP and life expectancy; I also include the session-wide filter to exclude any Year == 2020 if present. Here is the full Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"GDP per capita vs Life expectancy\",\n    \"subtitle\": \"One point per country, colored by region\",\n    \"anchor\": \"start\"\n  },\n  \"data\": {\n    \"url\": \"https://example.org/gapminder.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    }\n  ],\n  \"width\": 700,\n  \"height\": 450,\n  \"mark\": {\n    \"type\": \"point\",\n    \"filled\": true,\n    \"size\": 80,\n    \"opacity\": 0.8,\n    \"stroke\": \"black\",\n    \"strokeWidth\": 0.5\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"gdp_per_cap\",\n      \"type\": \"quantitative\",\n      \"title\": \"GDP per capita (USD)\",\n      \"scale\": {\n        \"type\": \"log\"\n      },\n      \"axis\": {\n        \"grid\": true\n      }\n    },\n    \"y\": {\n      \"field\": \"life_exp\",\n      \"type\": \"quantitative\",\n      \"title\": \"Life expectancy (years)\",\n      \"axis\": {\n        \"grid\": true\n      }\n    },\n    \"color\": {\n      \"field\": \"region\",\n      \"type\": \"nominal\",\n      \"title\": \"Region\"\n    },\n    \"tooltip\": [\n      {\"field\": \"country\", \"type\": \"nominal\", \"title\": \"Country\"},\n      {\"field\": \"region\", \"type\": \"nominal\", \"title\": \"Region\"},\n      {\"field\": \"gdp_per_cap\", \"type\": \"quantitative\", \"title\": \"GDP per capita\"},\n      {\"field\": \"life_exp\", \"type\": \"quantitative\", \"title\": \"Life expectancy\"}\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "On that scatter, colour the points by region and put the legend on the right.",
+   "assistant": "I set the color legend to appear on the right by adding a legend orient property to the color encoding; the points remain colored by region and the session-wide filter excluding Year == 2020 is still applied. Here is the full updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"GDP per capita vs Life expectancy\",\n    \"subtitle\": \"One point per country, colored by region\",\n    \"anchor\": \"start\"\n  },\n  \"data\": {\n    \"url\": \"https://example.org/gapminder.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    }\n  ],\n  \"width\": 700,\n  \"height\": 450,\n  \"mark\": {\n    \"type\": \"point\",\n    \"filled\": true,\n    \"size\": 80,\n    \"opacity\": 0.8,\n    \"stroke\": \"black\",\n    \"strokeWidth\": 0.5\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"gdp_per_cap\",\n      \"type\": \"quantitative\",\n      \"title\": \"GDP per capita (USD)\",\n      \"scale\": {\n        \"type\": \"log\"\n      },\n      \"axis\": {\n        \"grid\": true\n      }\n    },\n    \"y\": {\n      \"field\": \"life_exp\",\n      \"type\": \"quantitative\",\n      \"title\": \"Life expectancy (years)\",\n      \"axis\": {\n        \"grid\": true\n      }\n    },\n    \"color\": {\n      \"field\": \"region\",\n      \"type\": \"nominal\",\n      \"title\": \"Region\",\n      \"legend\": {\n        \"orient\": \"right\"\n      }\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"country\",\n        \"type\": \"nominal\",\n        \"title\": \"Country\"\n      },\n      {\n        \"field\": \"region\",\n        \"type\": \"nominal\",\n        \"title\": \"Region\"\n      },\n      {\n        \"field\": \"gdp_per_cap\",\n        \"type\": \"quantitative\",\n        \"title\": \"GDP per capita\"\n      },\n      {\n        \"field\": \"life_exp\",\n        \"type\": \"quantitative\",\n        \"title\": \"Life expectancy\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "Good enough, I'll come back to it. Back to the IMF credit chart: the bars are too thin, widen them.",
+   "assistant": "I increased the bar mark size from 4 to 20 to make the bars wider while keeping the 2020 filter and y-axis title. Here is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"subtitle\": [\n      \"Credit outstanding to all members\",\n      \" SDRs (billions), Source: IMF\"\n    ],\n    \"subtitleFontStyle\": \"italic\",\n    \"subtitleFontSize\": 10,\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    },\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 300,\n  \"width\": 500,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 20\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"SDR (billions)\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "And drop the italic subtitle on that one, it's too long for the slide.",
+   "assistant": "I removed the subtitle (and its italic styling) so only the main title remains; the rest of the chart (2020 filter, bar width, size, axes) is unchanged. Here is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    },\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 300,\n  \"width\": 500,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 20\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"SDR (billions)\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "Let's widen the window for the discussion section: show 2018 through 2022.",
+   "assistant": "I set the x-scale domain to span 2018-01-01 through 2022-12-31 so the chart displays 2018–2022; the session-wide filter still removes 2020, so no data will appear for that year. Below is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": {\n    \"text\": \"IMF lending outstanding \",\n    \"anchor\": \"start\",\n    \"color\": \"black\"\n  },\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": \"datum.Year != 2020\"\n    },\n    {\n      \"calculate\": \"datum.Totals/1000000000\",\n      \"as\": \"billions\"\n    }\n  ],\n  \"height\": 300,\n  \"width\": 500,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"color\": \"#86d0bb\",\n    \"size\": 20\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Year\",\n      \"type\": \"temporal\",\n      \"scale\": {\n        \"domain\": [\n          \"2018-01-01\",\n          \"2022-12-31\"\n        ]\n      },\n      \"axis\": {\n        \"title\": null,\n        \"grid\": false,\n        \"ticks\": false,\n        \"labelAngle\": 45\n      }\n    },\n    \"y\": {\n      \"field\": \"billions\",\n      \"type\": \"quantitative\",\n      \"title\": \"SDR (billions)\",\n      \"axis\": {\n        \"grid\": false\n      }\n    }\n  }\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+   "text": "IMF lending outstanding ",
+   "anchor": "start",
+   "color": "black"
+  },
+  "data": {
+   "url": "https://raw.githubusercontent.com/harrywright25/harrywright25.github.io/main/data_IMF_creditOutstanding.csv"
+  },
+  "transform": [
+   {
+    "filter": "datum.Year != 2020"
+   },
+   {
+    "calculate": "datum.Totals/1000000000",
+    "as": "billions"
+   }
+  ],
+  "height": 300,
+  "width": 500,
+  "mark": {
+   "type": "bar",
+   "color": "#86d0bb",
+   "size": 20
+  },
+  "encoding": {
+   "x": {
+    "field": "Year",
+    "type": "temporal",
+    "scale": {
+     "domain": [
+      "2018-01-01",
+      "2022-12-31"
+     ]
+    },
+    "axis": {
+     "title": null,
+     "grid": false,
+     "ticks": false,
+     "labelAngle": 45
+    }
+   },
+   "y": {
+    "field": "billions",
+    "type": "quantitative",
+    "title": "SDR (billions)",
+    "axis": {
+     "grid": false
+    }
+   }
+  }
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "filter_excludes_year",
+    "params": {
+     "year": 2020
+    },
+    "description": "a transform filter still excludes 2020",
+    "passed": true,
+    "reason": "2020 is excluded from every drawing layer (layer 0: expression 'datum.Year != 2020' rejects every sampled value)"
+   }
+  ],
+  "task": [
+   {
+    "id": "t1",
+    "kind": "range_covers",
+    "params": {
+     "lo": 2018,
+     "hi": 2022
+    },
+    "description": "the spec references both endpoints of the requested 2018-2022 window",
+    "passed": true,
+    "reason": "endpoints 2018/2022 both present"
+   }
+  ],
+  "constraint_kept": true,
+  "task_done": true
+ },
+ "usage": {
+  "prompt_tokens": 12984,
+  "completion_tokens": 6174
+ },
+ "errors": []
+}

@@ -1,0 +1,175 @@
+{
+ "dialogue_id": "cc_007",
+ "model": "openai/gpt-5-mini",
+ "run_index": 2,
+ "constraint_type": "filter",
+ "stressor_type": "goal_interruption",
+ "chart_type": "bar",
+ "seed_spec_file": "vl_1830.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2010,\n            \"month\": \"dec\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2020,\n            \"month\": \"dec\",\n            \"date\": 30\n          }\n        ]\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\"\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Measure\",\n        \"type\": \"ordinal\",\n        \"title\": \"Search index\"\n      },\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Date\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\"\n      }\n    ]\n  }\n}\n```\n\nThis chart tracks weekly search interest for a few bird-related terms. Standing rule for this session: always leave 2020 out of the data. Collection was disrupted that year and those numbers aren't comparable to the rest. Note the spec already has a date range filter; keep that and add the exclusion on top of it.",
+   "assistant": "I added an extra transform that explicitly excludes any records where the Week falls in year 2020 by using a negated timeUnit predicate; the original date-range filter is preserved. Below is the full updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2010,\n            \"month\": \"dec\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2020,\n            \"month\": \"dec\",\n            \"date\": 30\n          }\n        ]\n      }\n    },\n    {\n      \"filter\": {\n        \"not\": {\n          \"timeUnit\": \"year\",\n          \"field\": \"Week\",\n          \"equal\": 2020\n        }\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\"\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Measure\",\n        \"type\": \"ordinal\",\n        \"title\": \"Search index\"\n      },\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Date\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "Rename the legend title to 'Search term' and put the legend underneath the chart.",
+   "assistant": "I set the color legend's title to \"Search term\" (unchanged) and positioned the legend beneath the chart by adding legend.orient = \"bottom\" to the color encoding; the date-range filter and 2020 exclusion remain intact. Below is the full updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2010,\n            \"month\": \"dec\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2020,\n            \"month\": \"dec\",\n            \"date\": 30\n          }\n        ]\n      }\n    },\n    {\n      \"filter\": {\n        \"not\": {\n          \"timeUnit\": \"year\",\n          \"field\": \"Week\",\n          \"equal\": 2020\n        }\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\",\n      \"legend\": {\n        \"orient\": \"bottom\"\n      }\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Measure\",\n        \"type\": \"ordinal\",\n        \"title\": \"Search index\"\n      },\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Date\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Different question - is there a clean way to export a Vega-Lite chart to SVG from the command line? We need vector output for the print version.",
+   "assistant": "Yes — the simplest way is to use the Vega/Vega-Lite command-line tools to compile and render your spec to SVG.\n\nRecommended (fastest)\n- Install Node and then the CLIs:\n  npm install -g vega-lite vega-cli\n- Convert a Vega-Lite JSON file to SVG:\n  vl2svg mychart.vl.json -o mychart.svg\n\nAlternative (explicit compile + render)\n- Compile VL -> Vega, then render:\n  vl2vg mychart.vl.json | vg2svg - > mychart.svg\n\nNotes and gotchas\n- For SVG output you normally do not need any native image libraries (those are needed for PNG). The above commands will produce a vector SVG.\n- Make sure your spec includes the desired width/height; otherwise the renderer may use defaults. For consistent print output, set explicit sizes and verify fonts: SVG references system fonts by name, so if you need embedded fonts for printing you must either convert/embed externally (e.g., with Inkscape or a PDF tool) or render to PDF through a tool that can embed fonts.\n- If you prefer Python workflows, altair_saver (with node or headless browser backends) can also save Vega-Lite to SVG from Python scripts.\n\nIf you want, tell me your OS and whether you prefer a Node one-liner, a small Node script, or a Python approach and I can give exact commands tailored to your environment.",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "Also, our house style writes dates as '12 Mar 2021'. What timeUnit format string gives me that?",
+   "assistant": "Use a D3 time-format string like \"%-d %b %Y\" (e.g., \"12 Mar 2021\"). Put it on the axis/label/tooltip as the format with formatType \"time\" (or \"utc\" if your dates are in UTC). Notes:\n- %b = abbreviated month name (Jan, Feb, Mar), %Y = four‑digit year.\n- %-d removes any leading zero (so \"1 Mar 2021\" instead of \"01 Mar 2021\"); if you want zero‑padded days use \"%d %b %Y\", or a space‑padded day use \"%e %b %Y\".",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "Back to the chart. Make the bars narrower so the weekly resolution is visible.",
+   "assistant": "I set the bar mark's size to 6 pixels so each weekly bar is narrower and the weekly resolution is more visible. Below is the complete updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2010,\n            \"month\": \"dec\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2020,\n            \"month\": \"dec\",\n            \"date\": 30\n          }\n        ]\n      }\n    },\n    {\n      \"filter\": {\n        \"not\": {\n          \"timeUnit\": \"year\",\n          \"field\": \"Week\",\n          \"equal\": 2020\n        }\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"size\": 6\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\",\n      \"legend\": {\n        \"orient\": \"bottom\"\n      }\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Measure\",\n        \"type\": \"ordinal\",\n        \"title\": \"Search index\"\n      },\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Date\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "Add a tooltip with the week, the term and the value.",
+   "assistant": "I added a tooltip that shows the week (formatted as \"12 Mar 2021\"), the search term, and the value; the rest of the chart (date-range filter, 2020 exclusion, legend position, bar size) is unchanged. Below is the full updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2010,\n            \"month\": \"dec\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2020,\n            \"month\": \"dec\",\n            \"date\": 30\n          }\n        ]\n      }\n    },\n    {\n      \"filter\": {\n        \"not\": {\n          \"timeUnit\": \"year\",\n          \"field\": \"Week\",\n          \"equal\": 2020\n        }\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"size\": 6\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\",\n      \"legend\": {\n        \"orient\": \"bottom\"\n      }\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Week\",\n        \"format\": \"%-d %b %Y\",\n        \"formatType\": \"time\"\n      },\n      {\n        \"field\": \"Measure\",\n        \"type\": \"nominal\",\n        \"title\": \"Search term\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\",\n        \"title\": \"Search index\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "Let's extend the window - show 2018 through 2022.",
+   "assistant": "I updated the date-range filter to span 1 Jan 2018 through 31 Dec 2022 while keeping the existing exclusion that removes all records from 2020. Below is the complete updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Birds\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv\"\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Week\",\n        \"range\": [\n          {\n            \"year\": 2018,\n            \"month\": \"jan\",\n            \"date\": 1\n          },\n          {\n            \"year\": 2022,\n            \"month\": \"dec\",\n            \"date\": 31\n          }\n        ]\n      }\n    },\n    {\n      \"filter\": {\n        \"not\": {\n          \"timeUnit\": \"year\",\n          \"field\": \"Week\",\n          \"equal\": 2020\n        }\n      }\n    }\n  ],\n  \"height\": 399,\n  \"width\": 400,\n  \"mark\": {\n    \"type\": \"bar\",\n    \"size\": 6\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"Week\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"Value\",\n      \"type\": \"quantitative\",\n      \"title\": \"Search index\"\n    },\n    \"color\": {\n      \"field\": \"Measure\",\n      \"type\": \"nominal\",\n      \"title\": \"Search term\",\n      \"legend\": {\n        \"orient\": \"bottom\"\n      }\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"Week\",\n        \"type\": \"temporal\",\n        \"title\": \"Week\",\n        \"format\": \"%-d %b %Y\",\n        \"formatType\": \"time\"\n      },\n      {\n        \"field\": \"Measure\",\n        \"type\": \"nominal\",\n        \"title\": \"Search term\"\n      },\n      {\n        \"field\": \"Value\",\n        \"type\": \"quantitative\",\n        \"title\": \"Search index\"\n      }\n    ]\n  }\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Birds",
+  "data": {
+   "url": "https://raw.githubusercontent.com/hyungkwonko/tmp-data/main/birds2.csv"
+  },
+  "transform": [
+   {
+    "filter": {
+     "field": "Week",
+     "range": [
+      {
+       "year": 2018,
+       "month": "jan",
+       "date": 1
+      },
+      {
+       "year": 2022,
+       "month": "dec",
+       "date": 31
+      }
+     ]
+    }
+   },
+   {
+    "filter": {
+     "not": {
+      "timeUnit": "year",
+      "field": "Week",
+      "equal": 2020
+     }
+    }
+   }
+  ],
+  "height": 399,
+  "width": 400,
+  "mark": {
+   "type": "bar",
+   "size": 6
+  },
+  "encoding": {
+   "x": {
+    "field": "Week",
+    "type": "temporal"
+   },
+   "y": {
+    "field": "Value",
+    "type": "quantitative",
+    "title": "Search index"
+   },
+   "color": {
+    "field": "Measure",
+    "type": "nominal",
+    "title": "Search term",
+    "legend": {
+     "orient": "bottom"
+    }
+   },
+   "tooltip": [
+    {
+     "field": "Week",
+     "type": "temporal",
+     "title": "Week",
+     "format": "%-d %b %Y",
+     "formatType": "time"
+    },
+    {
+     "field": "Measure",
+     "type": "nominal",
+     "title": "Search term"
+    },
+    {
+     "field": "Value",
+     "type": "quantitative",
+     "title": "Search index"
+    }
+   ]
+  }
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "filter_excludes_year",
+    "params": {
+     "year": 2020
+    },
+    "description": "a transform filter still excludes 2020",
+    "passed": true,
+    "reason": "2020 is excluded from every drawing layer (layer 0: predicates reject every sampled num value)"
+   }
+  ],
+  "task": [
+   {
+    "id": "t1",
+    "kind": "range_covers",
+    "params": {
+     "lo": 2018,
+     "hi": 2022
+    },
+    "description": "the spec references both endpoints of the requested 2018-2022 window",
+    "passed": true,
+    "reason": "endpoints 2018/2022 both present"
+   }
+  ],
+  "constraint_kept": true,
+  "task_done": true
+ },
+ "usage": {
+  "prompt_tokens": 12121,
+  "completion_tokens": 7486
+ },
+ "errors": []
+}

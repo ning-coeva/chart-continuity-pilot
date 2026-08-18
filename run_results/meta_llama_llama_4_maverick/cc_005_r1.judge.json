@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_005",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": true, \"constraint_reason\": \"The filter transform explicitly excludes 2020 while including 2018-2022.\", \"task_done\": true, \"task_reason\": \"The chart displays the requested 2018-2022 range while respecting the 2020 exclusion.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The filter transform explicitly excludes 2020 while including 2018-2022.",
+  "task_done": true,
+  "task_reason": "The chart displays the requested 2018-2022 range while respecting the 2020 exclusion."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 589,
+  "completion_tokens": 72
+ }
+}

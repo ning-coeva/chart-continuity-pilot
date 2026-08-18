@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_002",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": false, \"constraint_reason\": \"The filter includes 2020, which violates the standing constraint to exclude it.\", \"task_done\": true, \"task_reason\": \"The reply correctly implements the requested range from 2018 to 2022.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": false,
+  "constraint_reason": "The filter includes 2020, which violates the standing constraint to exclude it.",
+  "task_done": true,
+  "task_reason": "The reply correctly implements the requested range from 2018 to 2022."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 588,
+  "completion_tokens": 67
+ }
+}

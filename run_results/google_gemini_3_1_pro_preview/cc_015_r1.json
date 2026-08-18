@@ -1,0 +1,114 @@
+{
+ "dialogue_id": "cc_015",
+ "model": "google/gemini-3.1-pro-preview",
+ "run_index": 1,
+ "constraint_type": "expression",
+ "stressor_type": "domain_switch",
+ "chart_type": "line",
+ "seed_spec_file": "vl_1770.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": false\n      },\n      \"type\": \"quantitative\"\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 0.2,\n    \"type\": \"line\"\n  },\n  \"width\": 800\n}\n```\n\nThis is quarterly mean temperature. Standing rule for this session: the y axis always starts at zero in this session. Never truncate it. The current spec sets zero to false on y - fix that and return the updated spec.",
+   "assistant": "I have updated the y-axis scale to ensure it always starts at zero by setting the `zero` property to `true`. Here is the complete updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"type\": \"quantitative\"\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 0.2,\n    \"type\": \"line\"\n  },\n  \"width\": 800\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "The stroke is far too thin. Set it to 2 and give the y axis the title 'Mean temperature (C)'.",
+   "assistant": "I have increased the line's stroke width to 2 and added the requested title to the y-axis. Here is the updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"title\": \"Mean temperature (C)\",\n      \"type\": \"quantitative\"\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 2,\n    \"type\": \"line\"\n  },\n  \"width\": 800\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Hold on, unrelated chart. I need a bar chart of survey responses by answer option from a CSV with columns option, count. Write me that spec.",
+   "assistant": "Here is a new specification for a bar chart displaying survey responses, keeping the standing rule to ensure the y-axis starts at zero. I've used a placeholder URL `survey.csv` for the data source.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"survey.csv\"\n  },\n  \"mark\": \"bar\",\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"option\",\n      \"type\": \"nominal\",\n      \"title\": \"Answer Option\"\n    },\n    \"y\": {\n      \"field\": \"count\",\n      \"type\": \"quantitative\",\n      \"title\": \"Count\",\n      \"scale\": {\n        \"zero\": true\n      }\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "On the survey chart, sort the bars by count descending and label each bar with its value.",
+   "assistant": "I have converted the chart to a layered specification to add text marks for the labels above each bar, and applied a descending sort to the x-axis based on the y-axis values. The standing rule ensuring the y-axis starts at zero has been maintained.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"survey.csv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"option\",\n      \"type\": \"nominal\",\n      \"title\": \"Answer Option\",\n      \"sort\": \"-y\"\n    },\n    \"y\": {\n      \"field\": \"count\",\n      \"type\": \"quantitative\",\n      \"title\": \"Count\",\n      \"scale\": {\n        \"zero\": true\n      }\n    }\n  },\n  \"layer\": [\n    {\n      \"mark\": \"bar\"\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"baseline\": \"bottom\",\n        \"dy\": -3\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"count\",\n          \"type\": \"quantitative\"\n        }\n      }\n    }\n  ]\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "That's fine for now. Back to the temperature chart - make it 640 wide instead of 800.",
+   "assistant": "I have restored the temperature line chart specification and adjusted its width to 640 pixels. The y-axis remains configured to start at zero in accordance with your standing rule.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"title\": \"Mean temperature (C)\",\n      \"type\": \"quantitative\"\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 2,\n    \"type\": \"line\"\n  },\n  \"width\": 640\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "And add a subtle grid on the y axis.",
+   "assistant": "I have added an `axis` property to the y-encoding with grid styling applied to make it subtle. The y-axis continues to start at zero according to your standing rule.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"title\": \"Mean temperature (C)\",\n      \"type\": \"quantitative\",\n      \"axis\": {\n        \"grid\": true,\n        \"gridColor\": \"lightgray\",\n        \"gridOpacity\": 0.5\n      }\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 2,\n    \"type\": \"line\"\n  },\n  \"width\": 640\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "The seasonal swing looks flat at this scale. Can you make the variation easier to read?",
+   "assistant": "To make the variation easier to read while strictly adhering to your standing rule that the y-axis must always start at zero, I have increased the chart's height to vertically stretch the line. Here is the updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://gicentre.github.io/data/tests/timeTest.tsv\"\n  },\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"date\",\n      \"timeUnit\": \"quarter\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"aggregate\": \"mean\",\n      \"field\": \"temperature\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"title\": \"Mean temperature (C)\",\n      \"type\": \"quantitative\",\n      \"axis\": {\n        \"grid\": true,\n        \"gridColor\": \"lightgray\",\n        \"gridOpacity\": 0.5\n      }\n    }\n  },\n  \"mark\": {\n    \"strokeWidth\": 2,\n    \"type\": \"line\"\n  },\n  \"width\": 640,\n  \"height\": 400\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+   "url": "https://gicentre.github.io/data/tests/timeTest.tsv"
+  },
+  "encoding": {
+   "x": {
+    "field": "date",
+    "timeUnit": "quarter",
+    "type": "temporal"
+   },
+   "y": {
+    "aggregate": "mean",
+    "field": "temperature",
+    "scale": {
+     "zero": true
+    },
+    "title": "Mean temperature (C)",
+    "type": "quantitative",
+    "axis": {
+     "grid": true,
+     "gridColor": "lightgray",
+     "gridOpacity": 0.5
+    }
+   }
+  },
+  "mark": {
+   "strokeWidth": 2,
+   "type": "line"
+  },
+  "width": 640,
+  "height": 400
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "y_zero_baseline",
+    "description": "y scale is not truncated (zero not disabled, no domain excluding 0)",
+    "passed": true,
+    "reason": "zero not disabled and no domain excluding it"
+   }
+  ],
+  "task": [],
+  "constraint_kept": true,
+  "task_done": null
+ },
+ "usage": {
+  "prompt_tokens": 7867,
+  "completion_tokens": 6652
+ },
+ "errors": []
+}

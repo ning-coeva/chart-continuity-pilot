@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_001",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": true, \"constraint_reason\": \"The transform filter explicitly excludes 2020.\", \"task_done\": true, \"task_reason\": \"The x-axis scale domain is set to 2018 through 2022.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The transform filter explicitly excludes 2020.",
+  "task_done": true,
+  "task_reason": "The x-axis scale domain is set to 2018 through 2022."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 578,
+  "completion_tokens": 60
+ }
+}

@@ -1,0 +1,192 @@
+{
+ "dialogue_id": "cc_018",
+ "model": "openai/gpt-5-mini",
+ "run_index": 1,
+ "constraint_type": "expression",
+ "stressor_type": "domain_switch",
+ "chart_type": "bar",
+ "seed_spec_file": "vl_0140.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"axis\": {\n        \"format\": \"s\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```\n\nMedian salary by club, three countries. Standing rule for the session: the y axis always starts at zero in this session. Never truncate it. Please apply it.",
+   "assistant": "I've set the y-axis scale to explicitly include zero by adding \"scale\": {\"zero\": true} to the y encoding so the axis will always start at 0. Below is the full updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"axis\": {\n        \"format\": \"s\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "Give the y axis the title 'Median salary (EUR)' and format the labels with thousands separators.",
+   "assistant": "I've added a y-axis title \"Median salary (EUR)\" and set the axis label format to use thousands separators. Below is the updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"axis\": {\n        \"title\": \"Median salary (EUR)\",\n        \"format\": \",.0f\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\",\n          \"Portugal\",\n          \"Germany\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Different task for a moment: I need a heatmap of correlation coefficients between five variables, from a CSV with columns var_a, var_b, corr. Write me the spec.",
+   "assistant": "Here's a Vega-Lite spec for a correlation heatmap that reads a CSV with columns var_a, var_b, corr; it uses a diverging color scale centered on [-1,1], overlays coefficient text formatted to two decimals, and shows tooltips.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Heatmap of correlation coefficients between variables (columns: var_a, var_b, corr).\",\n  \"data\": {\n    \"url\": \"data.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  },\n  \"width\": {\n    \"step\": 40\n  },\n  \"height\": {\n    \"step\": 40\n  },\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"rect\"\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"var_a\",\n          \"type\": \"nominal\",\n          \"axis\": {\n            \"title\": null\n          }\n        },\n        \"y\": {\n          \"field\": \"var_b\",\n          \"type\": \"nominal\",\n          \"axis\": {\n            \"title\": null\n          }\n        },\n        \"color\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              -1,\n              1\n            ],\n            \"scheme\": \"redblue\"\n          },\n          \"legend\": {\n            \"title\": \"Correlation\",\n            \"format\": \".2f\"\n          }\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"var_a\",\n            \"type\": \"nominal\",\n            \"title\": \"Variable A\"\n          },\n          {\n            \"field\": \"var_b\",\n            \"type\": \"nominal\",\n            \"title\": \"Variable B\"\n          },\n          {\n            \"field\": \"corr\",\n            \"type\": \"quantitative\",\n            \"title\": \"Correlation\",\n            \"format\": \".2f\"\n          }\n        ]\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"baseline\": \"middle\"\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"var_a\",\n          \"type\": \"nominal\"\n        },\n        \"y\": {\n          \"field\": \"var_b\",\n          \"type\": \"nominal\"\n        },\n        \"text\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"format\": \".2f\"\n        },\n        \"color\": {\n          \"condition\": {\n            \"test\": \"abs(datum.corr) > 0.5\",\n            \"value\": \"white\"\n          },\n          \"value\": \"black\"\n        }\n      }\n    }\n  ]\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "On the heatmap, use a diverging scale centred on zero and add the numeric value in each cell.",
+   "assistant": "I'll center the diverging color scale on zero by giving the color scale a three-value domain [-1, 0, 1] (and type \"diverging\"), and keep an overlaid text layer to show each numeric correlation formatted to two decimals.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Heatmap of correlation coefficients between variables (columns: var_a, var_b, corr). Diverging color scale centered on zero with numeric values shown in each cell.\",\n  \"data\": {\n    \"url\": \"data.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  },\n  \"width\": {\n    \"step\": 40\n  },\n  \"height\": {\n    \"step\": 40\n  },\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"rect\"\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"var_a\",\n          \"type\": \"nominal\",\n          \"axis\": {\n            \"title\": null\n          }\n        },\n        \"y\": {\n          \"field\": \"var_b\",\n          \"type\": \"nominal\",\n          \"axis\": {\n            \"title\": null\n          }\n        },\n        \"color\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"type\": \"diverging\",\n            \"domain\": [\n              -1,\n              0,\n              1\n            ],\n            \"scheme\": \"redblue\"\n          },\n          \"legend\": {\n            \"title\": \"Correlation\",\n            \"format\": \".2f\"\n          }\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"var_a\",\n            \"type\": \"nominal\",\n            \"title\": \"Variable A\"\n          },\n          {\n            \"field\": \"var_b\",\n            \"type\": \"nominal\",\n            \"title\": \"Variable B\"\n          },\n          {\n            \"field\": \"corr\",\n            \"type\": \"quantitative\",\n            \"title\": \"Correlation\",\n            \"format\": \".2f\"\n          }\n        ]\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"baseline\": \"middle\",\n        \"fontSize\": 12\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"var_a\",\n          \"type\": \"nominal\"\n        },\n        \"y\": {\n          \"field\": \"var_b\",\n          \"type\": \"nominal\"\n        },\n        \"text\": {\n          \"field\": \"corr\",\n          \"type\": \"quantitative\",\n          \"format\": \".2f\"\n        },\n        \"color\": {\n          \"condition\": {\n            \"test\": \"abs(datum.corr) > 0.5\",\n            \"value\": \"white\"\n          },\n          \"value\": \"black\"\n        }\n      }\n    }\n  ]\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "Good. Back to the salary chart - restrict it to Spanish clubs only.",
+   "assistant": "I've updated the transform filter to include only \"Spain\" so the chart now shows median salary by club for Spanish clubs only. Below is the full updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"axis\": {\n        \"title\": \"Median salary (EUR)\",\n        \"format\": \",.0f\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "And make the bars a bit wider.",
+   "assistant": "I've increased the bar width by adding \"size\": 30 to the bar mark so the bars appear a bit wider. Below is the complete updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"mark\": {\n    \"type\": \"bar\",\n    \"tooltip\": true,\n    \"size\": 30\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"Salary\",\n      \"type\": \"quantitative\",\n      \"aggregate\": \"median\",\n      \"scale\": {\n        \"zero\": true\n      },\n      \"axis\": {\n        \"title\": \"Median salary (EUR)\",\n        \"format\": \",.0f\"\n      }\n    },\n    \"x\": {\n      \"field\": \"Club\",\n      \"type\": \"nominal\",\n      \"aggregate\": null\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\"\n        ]\n      }\n    }\n  ],\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "The remaining bars look nearly identical in height. Make the differences between them clearer.",
+   "assistant": "I'll sort the clubs by median salary, add a color encoding to emphasize differences, and overlay numeric labels on each bar so small differences are easier to see. Below is the complete updated Vega-Lite specification.\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"url\": \"https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv\",\n    \"format\": {\n      \"type\": \"csv\"\n    }\n  },\n  \"transform\": [\n    {\n      \"filter\": {\n        \"field\": \"Country\",\n        \"oneOf\": [\n          \"Spain\"\n        ]\n      }\n    }\n  ],\n  \"width\": 600,\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"bar\",\n        \"size\": 30,\n        \"tooltip\": true\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"Club\",\n          \"type\": \"nominal\",\n          \"sort\": {\n            \"field\": \"Salary\",\n            \"op\": \"median\",\n            \"order\": \"descending\"\n          },\n          \"axis\": {\n            \"labelAngle\": -40\n          }\n        },\n        \"y\": {\n          \"field\": \"Salary\",\n          \"type\": \"quantitative\",\n          \"aggregate\": \"median\",\n          \"scale\": {\n            \"zero\": true\n          },\n          \"axis\": {\n            \"title\": \"Median salary (EUR)\",\n            \"format\": \",.0f\"\n          }\n        },\n        \"color\": {\n          \"field\": \"Salary\",\n          \"type\": \"quantitative\",\n          \"aggregate\": \"median\",\n          \"scale\": {\n            \"scheme\": \"blues\"\n          },\n          \"legend\": null\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"Club\",\n            \"type\": \"nominal\",\n            \"title\": \"Club\"\n          },\n          {\n            \"field\": \"Salary\",\n            \"type\": \"quantitative\",\n            \"aggregate\": \"median\",\n            \"title\": \"Median salary (EUR)\",\n            \"format\": \",.0f\"\n          }\n        ]\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"baseline\": \"bottom\",\n        \"dy\": -2,\n        \"fontSize\": 11\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"Club\",\n          \"type\": \"nominal\",\n          \"sort\": {\n            \"field\": \"Salary\",\n            \"op\": \"median\",\n            \"order\": \"descending\"\n          }\n        },\n        \"y\": {\n          \"field\": \"Salary\",\n          \"type\": \"quantitative\",\n          \"aggregate\": \"median\"\n        },\n        \"text\": {\n          \"field\": \"Salary\",\n          \"type\": \"quantitative\",\n          \"aggregate\": \"median\",\n          \"format\": \",.0f\"\n        },\n        \"color\": {\n          \"value\": \"black\"\n        }\n      }\n    }\n  ]\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+   "url": "https://raw.githubusercontent.com/nl4dv/nl4dv/master/examples/assets/data/euro.csv",
+   "format": {
+    "type": "csv"
+   }
+  },
+  "transform": [
+   {
+    "filter": {
+     "field": "Country",
+     "oneOf": [
+      "Spain"
+     ]
+    }
+   }
+  ],
+  "width": 600,
+  "layer": [
+   {
+    "mark": {
+     "type": "bar",
+     "size": 30,
+     "tooltip": true
+    },
+    "encoding": {
+     "x": {
+      "field": "Club",
+      "type": "nominal",
+      "sort": {
+       "field": "Salary",
+       "op": "median",
+       "order": "descending"
+      },
+      "axis": {
+       "labelAngle": -40
+      }
+     },
+     "y": {
+      "field": "Salary",
+      "type": "quantitative",
+      "aggregate": "median",
+      "scale": {
+       "zero": true
+      },
+      "axis": {
+       "title": "Median salary (EUR)",
+       "format": ",.0f"
+      }
+     },
+     "color": {
+      "field": "Salary",
+      "type": "quantitative",
+      "aggregate": "median",
+      "scale": {
+       "scheme": "blues"
+      },
+      "legend": null
+     },
+     "tooltip": [
+      {
+       "field": "Club",
+       "type": "nominal",
+       "title": "Club"
+      },
+      {
+       "field": "Salary",
+       "type": "quantitative",
+       "aggregate": "median",
+       "title": "Median salary (EUR)",
+       "format": ",.0f"
+      }
+     ]
+    }
+   },
+   {
+    "mark": {
+     "type": "text",
+     "baseline": "bottom",
+     "dy": -2,
+     "fontSize": 11
+    },
+    "encoding": {
+     "x": {
+      "field": "Club",
+      "type": "nominal",
+      "sort": {
+       "field": "Salary",
+       "op": "median",
+       "order": "descending"
+      }
+     },
+     "y": {
+      "field": "Salary",
+      "type": "quantitative",
+      "aggregate": "median"
+     },
+     "text": {
+      "field": "Salary",
+      "type": "quantitative",
+      "aggregate": "median",
+      "format": ",.0f"
+     },
+     "color": {
+      "value": "black"
+     }
+    }
+   }
+  ]
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "y_zero_baseline",
+    "description": "y scale is not truncated (zero not disabled, no domain excluding 0)",
+    "passed": true,
+    "reason": "zero not disabled and no domain excluding it"
+   }
+  ],
+  "task": [],
+  "constraint_kept": true,
+  "task_done": null
+ },
+ "usage": {
+  "prompt_tokens": 11209,
+  "completion_tokens": 7177
+ },
+ "errors": []
+}

@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_012",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": true, \"constraint_reason\": \"The 'dark2' color scheme is color-blind-safe and does not rely on red-versus-green contrast.\", \"task_done\": true, \"task_reason\": \"The 'dark2' scheme provides distinct colors with strong contrast between the four categories.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The 'dark2' color scheme is color-blind-safe and does not rely on red-versus-green contrast.",
+  "task_done": true,
+  "task_reason": "The 'dark2' scheme provides distinct colors with strong contrast between the four categories."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 649,
+  "completion_tokens": 74
+ }
+}

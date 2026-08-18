@@ -1,0 +1,142 @@
+{
+ "dialogue_id": "cc_019",
+ "model": "openai/gpt-5-mini",
+ "run_index": 2,
+ "constraint_type": "expression",
+ "stressor_type": "goal_interruption",
+ "chart_type": "line",
+ "seed_spec_file": "vl_1760.vl.json",
+ "transcript": [
+  {
+   "turn_id": 1,
+   "phase": "establish",
+   "user": "Here is the current specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\"\n    }\n  },\n  \"mark\": \"line\"\n}\n```\n\nShort hourly price series. Standing rule for this session: the y axis always starts at zero in this session. Never truncate it. Apply it and return the updated spec.",
+   "assistant": "I'll set the y-scale's minimum domain to 0 so the y-axis always starts at zero. Here's the updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domainMin\": 0\n      }\n    }\n  },\n  \"mark\": \"line\"\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 2,
+   "phase": "establish",
+   "user": "Give the chart the title 'Hourly price' and set the width to 500.",
+   "assistant": "I've added the chart title \"Hourly price\" and set the chart width to 500. Below is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": \"Hourly price\",\n  \"width\": 500,\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domainMin\": 0\n      }\n    }\n  },\n  \"mark\": \"line\"\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 3,
+   "phase": "stress",
+   "user": "Unrelated: the dates in this data are RFC-style strings. Does Vega-Lite parse those reliably, or should I convert to ISO 8601 first?",
+   "assistant": "Vega-Lite relies on the host JavaScript engine to parse date strings (it uses JS Date.parse for inline values), and the ECMAScript spec only guarantees consistent parsing for ISO 8601 formats. RFC-style date strings (like \"Sun, 01 Jan 2012 23:00:00\") will usually parse correctly in modern browsers, but parsing of non-ISO formats is technically implementation-dependent and can differ across environments or produce local-time vs UTC differences.\n\nRecommendation: convert your dates to ISO 8601 (e.g., \"2012-01-01T23:00:00Z\" to force UTC) or supply epoch milliseconds (number of ms since 1970) for robust, portable behavior. If you cannot change the source, preprocess them into ISO or numbers, or parse them server-side / in a build step before feeding the data to Vega-Lite.",
+   "error": null
+  },
+  {
+   "turn_id": 4,
+   "phase": "stress",
+   "user": "Also - is there a recommended way to keep inline data out of the spec once it grows past a few hundred rows?",
+   "assistant": "Yes — once your inline data grows, move it out of the spec. Common, recommended patterns:\n\n- Put the data in an external file and reference it with data.url:\n  - Use CSV or JSON (or NDJSON for line-delimited JSON). This keeps the spec small and lets the browser fetch only what’s needed.\n  - Include a format.parse or format.type if you need custom parsing (e.g., parse dates or numbers).\n  - Be mindful of CORS and relative vs absolute paths when hosting files.\n\n- Load data at runtime in your application and inject it into the spec:\n  - Fetch with fetch()/axios/etc., preprocess/aggregate on the client or server, then set spec.data = {values: yourArray} before calling vegaEmbed() or view.insert()/view.change() if you need incremental updates.\n  - This gives you flexibility to cache, paginate, or transform data before rendering.\n\n- Pre-aggregate or preprocess on the server for large datasets:\n  - For hundreds to millions of rows, do heavy aggregation or downsampling server-side and send only the summarized data to the chart. Vega-Lite transforms still run in the browser and can be slow with huge datasets.\n\n- Use an efficient file/format for performance:\n  - CSV and JSON are simplest; NDJSON can be useful for streaming. For very large datasets, consider server-side tiling or APIs that return only the viewport/time-range needed.\n\nQuick recommendation:\n- For moderate sized datasets (few hundred to a few thousand rows): serve a CSV/JSON file and reference it via data.url (and use format.parse to ensure dates are parsed as you expect).\n- For very large datasets: perform server-side aggregation or provide an API endpoint that returns only the subset or summary needed for the view.\n\nIf you want, I can show an example spec that loads data from an external CSV/JSON and demonstrates specifying date parsing.",
+   "error": null
+  },
+  {
+   "turn_id": 5,
+   "phase": "stress",
+   "user": "Back to the chart. Add point markers so each observation is visible.",
+   "assistant": "I enabled point markers on the line mark so each observation is shown as a visible marker. Below is the full updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": \"Hourly price\",\n  \"width\": 500,\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domainMin\": 0\n      }\n    }\n  },\n  \"mark\": {\n    \"type\": \"line\",\n    \"point\": true\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 6,
+   "phase": "stress",
+   "user": "Set the y-axis title to 'Price'.",
+   "assistant": "I added the y-axis title \"Price\" to the encoding.y.axis. Below is the complete updated Vega-Lite specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": \"Hourly price\",\n  \"width\": 500,\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domainMin\": 0\n      },\n      \"axis\": {\n        \"title\": \"Price\"\n      }\n    }\n  },\n  \"mark\": {\n    \"type\": \"line\",\n    \"point\": true\n  }\n}\n```",
+   "error": null
+  },
+  {
+   "turn_id": 7,
+   "phase": "probe",
+   "user": "The line looks almost flat. Can you make the hour-to-hour movement easier to read?",
+   "assistant": "I increased the chart height to give more vertical space and made the line thicker with larger, filled point markers so small hour-to-hour changes are easier to see while keeping the y-axis anchored at zero. Here's the full updated specification:\n\n```json\n{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"title\": \"Hourly price\",\n  \"width\": 500,\n  \"height\": 300,\n  \"data\": {\n    \"values\": [\n      {\n        \"date\": \"Sun, 01 Jan 2012 23:00:00\",\n        \"price\": 150\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 00:00:00\",\n        \"price\": 100\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 01:00:00\",\n        \"price\": 170\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 02:00:00\",\n        \"price\": 165\n      },\n      {\n        \"date\": \"Sun, 02 Jan 2012 03:00:00\",\n        \"price\": 200\n      }\n    ]\n  },\n  \"encoding\": {\n    \"x\": {\n      \"axis\": {\n        \"labelAngle\": 15\n      },\n      \"field\": \"date\",\n      \"timeUnit\": \"utcyearmonthdatehoursminutes\",\n      \"type\": \"temporal\"\n    },\n    \"y\": {\n      \"field\": \"price\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"domainMin\": 0\n      },\n      \"axis\": {\n        \"title\": \"Price\",\n        \"tickCount\": 6\n      }\n    }\n  },\n  \"mark\": {\n    \"type\": \"line\",\n    \"point\": {\n      \"filled\": true,\n      \"size\": 100,\n      \"stroke\": \"white\"\n    },\n    \"strokeWidth\": 3,\n    \"color\": \"#1f77b4\"\n  }\n}\n```",
+   "error": null
+  }
+ ],
+ "probe_spec_parsed": true,
+ "probe_spec_note": "ok",
+ "probe_spec": {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Hourly price",
+  "width": 500,
+  "height": 300,
+  "data": {
+   "values": [
+    {
+     "date": "Sun, 01 Jan 2012 23:00:00",
+     "price": 150
+    },
+    {
+     "date": "Sun, 02 Jan 2012 00:00:00",
+     "price": 100
+    },
+    {
+     "date": "Sun, 02 Jan 2012 01:00:00",
+     "price": 170
+    },
+    {
+     "date": "Sun, 02 Jan 2012 02:00:00",
+     "price": 165
+    },
+    {
+     "date": "Sun, 02 Jan 2012 03:00:00",
+     "price": 200
+    }
+   ]
+  },
+  "encoding": {
+   "x": {
+    "axis": {
+     "labelAngle": 15
+    },
+    "field": "date",
+    "timeUnit": "utcyearmonthdatehoursminutes",
+    "type": "temporal"
+   },
+   "y": {
+    "field": "price",
+    "type": "quantitative",
+    "scale": {
+     "domainMin": 0
+    },
+    "axis": {
+     "title": "Price",
+     "tickCount": 6
+    }
+   }
+  },
+  "mark": {
+   "type": "line",
+   "point": {
+    "filled": true,
+    "size": 100,
+    "stroke": "white"
+   },
+   "strokeWidth": 3,
+   "color": "#1f77b4"
+  }
+ },
+ "deterministic": {
+  "constraint": [
+   {
+    "id": "c1",
+    "kind": "y_zero_baseline",
+    "description": "y scale is not truncated (zero not disabled, no domain excluding 0)",
+    "passed": true,
+    "reason": "zero not disabled and no domain excluding it"
+   }
+  ],
+  "task": [],
+  "constraint_kept": true,
+  "task_done": null
+ },
+ "usage": {
+  "prompt_tokens": 10206,
+  "completion_tokens": 6159
+ },
+ "errors": []
+}

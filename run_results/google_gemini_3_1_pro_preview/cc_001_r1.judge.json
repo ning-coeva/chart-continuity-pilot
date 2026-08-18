@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_001",
+ "model": "google/gemini-3.1-pro-preview",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\"constraint_kept\": true, \"constraint_reason\": \"The filter explicitly excludes 2020 as required by the standing constraint.\", \"task_done\": true, \"task_reason\": \"The data is correctly filtered to include 2018 through 2022, excluding 2020 as specified.\"}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The filter explicitly excludes 2020 as required by the standing constraint.",
+  "task_done": true,
+  "task_reason": "The data is correctly filtered to include 2018 through 2022, excluding 2020 as specified."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 604,
+  "completion_tokens": 71
+ }
+}

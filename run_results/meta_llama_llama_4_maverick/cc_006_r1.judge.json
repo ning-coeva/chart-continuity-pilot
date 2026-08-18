@@ -1,0 +1,19 @@
+{
+ "dialogue_id": "cc_006",
+ "model": "meta-llama/llama-4-maverick",
+ "run_index": 1,
+ "judge_model": "deepseek/deepseek-chat",
+ "judge_raw": "```json\n{\n  \"constraint_kept\": true,\n  \"constraint_reason\": \"The filter explicitly excludes data from 2020 by using a compound condition.\",\n  \"task_done\": true,\n  \"task_reason\": \"The time window is correctly adjusted to show data from 2018 through 2022, excluding 2020 as requested.\"\n}\n```",
+ "judge_parsed": {
+  "constraint_kept": true,
+  "constraint_reason": "The filter explicitly excludes data from 2020 by using a compound condition.",
+  "task_done": true,
+  "task_reason": "The time window is correctly adjusted to show data from 2018 through 2022, excluding 2020 as requested."
+ },
+ "parse_error": null,
+ "error": null,
+ "usage": {
+  "prompt_tokens": 642,
+  "completion_tokens": 81
+ }
+}

@@ -1,0 +1,49 @@
+{
+  "source_repo": "https://github.com/hyungkwonko/chart-llm",
+  "source_path": "docs/data/chart/",
+  "citation": "Ko, H.-K., Jeon, H., Park, G., Kim, D. H., Kim, N. W., Kim, J., & Seo, J. (2024). Natural Language Dataset Generation Framework for Visualizations Powered by Large Language Models. CHI 2024.",
+  "note": "10 seed specs sampled from the 1,981 Vega-Lite specs published in the chart-llm repository; selected for single-view structural clarity (top-level mark, x and y encodings, no layer/concat/facet) and to cover bar, line and scatter marks.",
+  "retrieved": "2026-08-18",
+  "files": {
+    "vl_0140.vl.json": {
+      "mark": "bar",
+      "upstream": "docs/data/chart/vl_0140.vl.json"
+    },
+    "vl_0250.vl.json": {
+      "mark": "circle",
+      "upstream": "docs/data/chart/vl_0250.vl.json"
+    },
+    "vl_0940.vl.json": {
+      "mark": "bar",
+      "upstream": "docs/data/chart/vl_0940.vl.json"
+    },
+    "vl_0970.vl.json": {
+      "mark": "bar",
+      "upstream": "docs/data/chart/vl_0970.vl.json"
+    },
+    "vl_1080.vl.json": {
+      "mark": "line",
+      "upstream": "docs/data/chart/vl_1080.vl.json"
+    },
+    "vl_1660.vl.json": {
+      "mark": "circle",
+      "upstream": "docs/data/chart/vl_1660.vl.json"
+    },
+    "vl_1720.vl.json": {
+      "mark": "circle",
+      "upstream": "docs/data/chart/vl_1720.vl.json"
+    },
+    "vl_1760.vl.json": {
+      "mark": "line",
+      "upstream": "docs/data/chart/vl_1760.vl.json"
+    },
+    "vl_1770.vl.json": {
+      "mark": "line",
+      "upstream": "docs/data/chart/vl_1770.vl.json"
+    },
+    "vl_1830.vl.json": {
+      "mark": "bar",
+      "upstream": "docs/data/chart/vl_1830.vl.json"
+    }
+  }
+}
