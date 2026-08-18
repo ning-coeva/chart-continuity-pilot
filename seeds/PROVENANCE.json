@@ -45,5 +45,7 @@
       "mark": "bar",
       "upstream": "docs/data/chart/vl_1830.vl.json"
     }
-  }
+  },
+  "source_license": "MIT",
+  "license_note": "The chart-llm repository is MIT licensed; the 10 specifications in this directory are redistributed unmodified under that licence, with attribution to the authors listed in \"citation\". This pilot itself is Apache-2.0."
 }

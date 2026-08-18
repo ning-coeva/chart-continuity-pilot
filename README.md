@@ -330,3 +330,9 @@ Seed specifications come from the chart-llm repository accompanying:
 
 The stressor construction is adapted from
 [ContinuityBench](https://github.com/ning-coeva/continuity-bench).
+
+## Licence
+
+This pilot is Apache-2.0. The 10 seed specifications in `seeds/` are redistributed
+unmodified from the MIT-licensed chart-llm repository, with attribution as above;
+`seeds/PROVENANCE.json` records the upstream path and licence for each file.
